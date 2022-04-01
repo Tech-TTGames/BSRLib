@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% import 'bootstrap/form.html' as wtf %}
+
+{% block app_content %}
+    <h1>Forum{% if mode %} - Follows Feed{% endif %}</h1>
+    <p>Hello {% if current_user.admin %}<span style="color:#ff0000">ADMIN</span>{% endif %} {{current_user.username}}!</p>
+    {% if not mode %}
+    <a href="{{ url_for('main.followedfeed') }}">Your follows feed!</a>
+    {% endif %}
+    {% if form %}
+    {{ wtf.render_form(form) }}
+    <br>
+    {% endif %}
+    {% for post in posts %}
+        {% include "s-post.html" %}
+    {% endfor %}
+    <nav aria-label="...">
+        <ul class="pagination justify-content-between">
+            <li class="page-item {{'disabled' if not prev_url }}">
+                <a class="page-link" href="{{ prev_url or '#' }}">
+                    <span aria-hidden="true">&larr;</span> Newer posts
+                </a>
+            </li>
+            <li class="page-item {{'disabled' if not next_url }}">
+                <a class="page-link" href="{{ next_url or '#' }}">
+                    Older posts <span aria-hidden="true">&rarr;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+{% endblock %}
+{% block scripts %}
+        {{ super() }}
+{% endblock %}

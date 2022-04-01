@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% import 'bootstrap/form.html' as wtf %}
+
+{% block app_content %}
+    {% if current_user.is_authenticated %}
+    <h1>Hi,{% if current_user.admin %}<span style="color:#ff0000"> ADMIN</span>{% endif %} {{ current_user.username }}!</h1>
+    {% else %}
+    <h1>Welcome to BSRLib!</h1>
+    {% endif %}
+    <p>This is the Account and Forums subsystem of our library. Feel free to look around!</p>
+    <p>In the <b>Forum</b> tab we have a place for the users to exchange books and talk about anything you want!</p>
+    <p>And in the <b>The Library</b> tab you can register to the calibre book management system! Also you can use a link placed there to add books!</p>
+    <p>To Contact the Administration please click <a href="mailto:admin@techttgames.dev?subject=BSRLib Support">here</a>.</p>
+    <h3>Current Statistics</h2>
+    <p>There are currently <b>{{ stat[1] }}</b> users.</p>
+    <p>Of said users <b>{{ stat[2] }}</b> are registered to calibre.</p>
+    <p>And there are <b>{{ stat[0] }}</b> posts!</p>
+    <h2>Administration Announcments</h2>
+    {% if form %}
+    {{ wtf.render_form(form) }}
+    <br>
+    {% endif %}
+    {% for post in posts %}
+        {% include "s-post.html" %}
+    {% endfor %}
+    <nav aria-label="...">
+        <ul class="pagination justify-content-between">
+            <li class="page-item {{'disabled' if not prev_url }}">
+                <a class="page-link" href="{{ prev_url or '#' }}">
+                    <span aria-hidden="true">&larr;</span> Newer posts
+                </a>
+            </li>
+            <li class="page-item {{'disabled' if not next_url }}">
+                <a class="page-link" href="{{ next_url or '#' }}">
+                    Older posts <span aria-hidden="true">&rarr;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+{% endblock %}
+{% block scripts %}
+        {{ super() }}
+{% endblock %}

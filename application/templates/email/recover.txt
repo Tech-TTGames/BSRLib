@@ -1,0 +1,11 @@
+Dear {{ user.username }},
+
+To reset your password click on the following link:
+
+{{ url_for('auth.recover', t=token, _external=True, _scheme='https') }}
+
+If you have not requested a password reset simply ignore this message.
+
+Sincerely,
+
+The BSRLib Admins

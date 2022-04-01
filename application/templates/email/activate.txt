@@ -1,0 +1,11 @@
+Dear {{ user.username }},
+
+To activate your account click on the following link:
+
+{{ url_for('auth.activate', t=token, _external=True, _scheme='https') }}
+
+If you have not created an account simply ignore this message
+
+Sincerely,
+
+The BSRLib Admins

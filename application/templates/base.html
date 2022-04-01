@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        {% block head %}
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        {% block styles %}
+            <!-- Bootstrap CSS -->
+            {{ bootstrap.load_css() }}
+        {% endblock %}
+
+        <title>{% if title %}{{ title }} - BSRLib{% else %}Welcome to BSRLib!{% endif %}</title>
+        {% endblock %}
+    </head>
+    <body>
+    {% block navbar %}
+        <nav class="navbar navbar-expand-md navbar-light bg-light">
+            <div class="navbar-header">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                    </button>
+                <a class="navbar-brand" href="{{ url_for('main.index') }}"> <img src="/static/image-round.webp" width="30" height="30" class="d-inline-block align-top" alt="">BSRLib</a>
+            </div>
+            <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('main.index') }}">Home</a></li>
+                    {% if current_user.confirmed %}
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('main.forum') }}">Forum</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('main.calibre_access') }}">The Library</a></li>
+                    {% else %}
+                    <li class="nav-item"><a class="nav-link disabled" href="{{ url_for('main.forum') }}">Forum</a></li>
+                    <li class="nav-item"><a class="nav-link disabled" href="{{ url_for('main.calibre_access') }}">The Library</a></li>
+                    {% endif %}
+                </ul>
+                <ul class="navbar-nav">
+                    {% if current_user.is_anonymous %}
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.register') }}">Register</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}">Login</a></li>
+                    {% elif current_user.confirmed %}
+                    {% if current_user.admin %}
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.control_panel') }}">Control Panel</a></li>
+                    {% endif %}
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('main.user', username=current_user.username) }}">Profile</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a></li>
+                    {% else %}
+                    <li class="nav-item"><a class="nav-link disabled" href="{{ url_for('main.user', username=current_user.username) }}">Profile</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    {% endblock %}
+
+    {% block content %}
+        <div class="container">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-info" role="alert">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+            {% block app_content %}{% endblock %}
+        </div>
+    {% endblock %}
+
+    {% block scripts %}
+        {{ moment.include_moment() }}
+        {{ bootstrap.load_js() }}
+    {% endblock %}
+    </body>
+</html>

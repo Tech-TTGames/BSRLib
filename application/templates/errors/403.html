@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+    <h1>403: Forbidden</h1>
+    <p>You do not meet the requirements to view this page!</p>
+    <p><a href="{{ url_for('main.index') }}">Back to Index</p>
+{% endblock %}

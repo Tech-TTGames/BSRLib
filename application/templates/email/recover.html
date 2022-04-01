@@ -1,0 +1,12 @@
+<p>Dear {{ user.username }},</p>
+<p>
+    To reset your password
+    <a href="{{ url_for('auth.recover', t=token, _external=True, _scheme='https') }}">
+        click here
+    </a>.
+</p>
+<p>Alternatively, you can paste the following link in your browser's address bar:</p>
+<p>{{ url_for('auth.recover', t=token, _external=True, _scheme='https') }}</p>
+<p>If you have not requested a password reset simply ignore this message.</p>
+<p>Sincerely,</p>
+<p>The BSRLib Admins</p>

@@ -1,0 +1,26 @@
+<table class="table table-hover">
+    <tr>
+        <td width="70px">
+            {% if not post.author.lock %}
+            <a href="{{ url_for('main.user', username=post.author.username) }}">
+                <img src="{{ post.author.avatar(70) }}" alt="{{post.author.username}}'s profile picture"/>
+            </a>
+            {% else %}
+            <img src="{{ url_for('static', filename='locked_pfp.png')}}" />
+            {% endif %}
+        </td>
+        <td>
+            {% if not post.author.lock %}
+            <a href="{{ url_for('main.user', username=post.author.username) }}">
+                {% if post.author.admin %}<span style="color:#ff0000">ADMIN </span>{% endif %}{{ post.author.username }}
+            </a>
+            said {{ moment(post.timestamp).fromNow() }}:
+            <br>
+            {{ post.body }}
+            {% else %}
+            <span style="color:#ff0000">Locked User</span><br>
+            Post Data Redacted
+            {% endif %}
+        </td>
+    </tr>
+</table>

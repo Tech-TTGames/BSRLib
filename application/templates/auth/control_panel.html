@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% import 'bootstrap/form.html' as wtf %}
+
+{% block app_content %}
+    <h1>Admin Control Panel</h1>
+    {% if current_user.admin %}
+    <p>Welcome,<span style="color:#ff0000"> ADMIN</span> {{ current_user.username }}.</p>
+    <div class="row">
+        <div class="col-md-4">
+            {{ wtf.render_form(form) }}
+        </div>
+    </div>
+    {% else %}
+        <p>Illegal Access Detected. Please retutn to the index.</p>
+        <p><a href="{{ url_for('main.index') }}">Back to Index</p>
+    {% endif %}
+{% endblock %}
+{% block scripts %}
+        {{ super() }}
+{% endblock %}

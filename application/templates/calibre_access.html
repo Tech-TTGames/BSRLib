@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+    <h1>Library Credentials</h1>
+    {% if user.calibre_pass %}
+        <p><b>Login:</b> {{ user.calibre_usrname }}</p><br>
+        <p><b>Password:</b> {{ user.calibre_pass }}</p><br>
+        <p><b>Note:</b> You can change your password manually from the library interface using the 'person' image in top right when you log in, however that is <span style="color:#ff0000">SERIOUSLY NOT RECOMMENDED</span> as said passwords are kept in plaintext and you do so on your own responsibility (The Administration will not take responsibility for any leaks that may happen).</p>
+        <p>The Password above will NOT change. Please contact the Administration to reset the Calibre password.</p>
+        <p><a href="https://193.39.71.15:8223/calibre/">Click here to go to the library!</a></p>
+        <p><a href="https://forms.gle/HYrMM2zUrvYAz5CJA">And click here to add a book to the library!</a></p>
+    {% else %}
+        <p>You're not yet registred to the calibre server!</p>
+        <form action="" method="post">
+            {{ form.hidden_tag() }}
+            <p>{{ form.initialize(class_='btn btn-default') }}</p>
+        </form>
+    {% endif %}
+{% endblock %}
+{% block scripts %}
+        {{ super() }}
+{% endblock %}
